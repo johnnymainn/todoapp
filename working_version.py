@@ -1,18 +1,17 @@
-from curses.ascii import isalpha
 from tkinter import *
-from functools import partial
 
 
-
+# def to open the main window that
+# carries out the main function of the app
 def newwindow():
+    # command to get rid of the welcome screen
     tk_welcome.destroy()
 
-    from tkinter import messagebox
-    import time
-
+    # setting parent and dimensions of main window
     root = Tk()
     root.geometry('400x300')
 
+    # defs to change colour of the main screen
     def revert():
         root.configure(background='gray20')
 
@@ -27,18 +26,19 @@ def newwindow():
 
     def help_user():
 
-        help = Toplevel(root)
-        help.geometry('340x250')
-        help.title("help")
+        help_me = Toplevel(root)
+        help_me.geometry('340x250')
+        help_me.title("help")
 
-        edit_label = Label(help, text="""Edit buttonguide""",
-        bg="white", fg="black")
+        edit_label = Label(help_me, text="Edit buttonguide",
+                           bg="white", fg="black")
         edit_label.grid(row=0, columnspan=2)
 
-        edit_guide = Label(help, text="""To edit, click a task/time in the list,
+        edit_guide = Label(help_me, text="""To edit, click a task/time in the list,
         type your new entry into one of the entry boxes\n and click submit.""")
         edit_guide.grid(row=1, columnspan=2)
 
+    # creating a window to alter app colour
     def create():
         win = Toplevel(root)
 
@@ -48,8 +48,8 @@ def newwindow():
         blank_label = Label(win, text="")
         blank_label.grid(row=1, column=0)
 
-        colour_label = Label(win, text="""select your colour:""",
-        fg="black", bg="white")
+        colour_label = Label(win, text="select your colour:",
+                             fg="black", bg="white")
         colour_label.grid(row=0, column=0)
 
         button_g = Button(win, text="revert colour", command=revert)
@@ -64,8 +64,10 @@ def newwindow():
         button_be = Button(win, text="beige", command=beige)
         button_be.grid(row=5, column=0)
 
+    # def for window to submit a new daily task
     def submitnew():
 
+        # def to verify that entered text is am/pm or AM/PM
         def verify_am_pm():
             am_or_pm = am_pm_entry.get()
             if am_or_pm == "AM" or am_or_pm == "am":
@@ -74,7 +76,8 @@ def newwindow():
                 return True
             else:
                 return False
-        
+
+        # def to verify the minutes entered
         def verify_minutes():
             minutes = minutes_time_entry.get()
 
@@ -95,7 +98,8 @@ def newwindow():
 
             else:
                 return False
-        
+
+        # def to check if hours entered is valid
         def verify_hours():
             hour = hour_time_entry.get()
 
@@ -117,19 +121,20 @@ def newwindow():
             else:
                 return False
 
-
+        # verifying the hours, minutes, and AM/PM entry to
+        # put them together or to bring up an error if one is not valid
         def verify_task():
-            text_warning = Label(task, text="""Please enter valid credentials""", fg="red")
+            text_warning = Label(
+                task, text="""Please enter valid credentials""", fg="red")
             hours = hour_time_entry.get()
             minutes = minutes_time_entry.get()
             event = event_entry.get()
             time = hours + ":" + minutes + am_pm_entry.get()
 
-            if (len(event) != 0 and verify_am_pm() == True and verify_hours() == True and verify_minutes()) == True:
+            if len(event) != 0 and verify_am_pm() == True and verify_hours() == True and verify_minutes():  # noqa
                 task_lb.insert(END, event)
                 event_entry.delete(0, "end")
                 print("1")
-                
 
                 time_lb.insert(END, time)
                 hour_time_entry.delete(0, "end")
@@ -138,56 +143,57 @@ def newwindow():
                 edit_button.place(x=15, y=5)
                 clear_button.place(x=13, y=40)
 
-
             else:
-                
-                text_warning.place(x=75, y=205)
-                
 
+                text_warning.place(x=75, y=205)
+
+        # creating the window to create a new task
         task = Toplevel(root)
-        task.title("task entry")
+        task.title("Task Entry")
         task.geometry('320x300')
 
+        Label(task, bg="white", fg="black",
+              text="What task do you have to complete?").place(x=45, y=10)
 
-        Label(task, bg="white", fg="black", text="What task do you have to complete?").place(x=45, y=10)
+        Label(task, bg="white", fg="black",
+              text="What time? (12h scale)").place(x=10, y=75)
 
-        Label(task, bg="white", fg="black", text="What time? (12h scale)").place(x=10, y=75)
+        Label(task, bg="white", fg="black",
+              text="AM or PM?").place(x=204, y=75)
 
-        Label(task, bg="white", fg="black", text="AM or PM?").place(x=204, y=75)
-
-        words = StringVar()
-        event_entry = Entry(task, textvariable=words, width=25)
+        variable_words = StringVar()
+        event_entry = Entry(task, textvariable=variable_words, width=25)
         event_entry.place(x=40, y=38)
 
-        words = StringVar()
-        am_pm_entry = Entry(task, textvariable=words, width=8)
+        variable_words = StringVar()
+        am_pm_entry = Entry(task, textvariable=variable_words, width=8)
         am_pm_entry.place(x=198, y=100)
 
-        words = StringVar()
-        hour_time_entry = Entry(task, textvariable=words, width=10)
+        variable_words = StringVar()
+        hour_time_entry = Entry(task, textvariable=variable_words, width=10)
         hour_time_entry.place(x=60, y=100)
 
         hour_label = Label(task, text="hour:")
-        hour_label.place(x=2,y=100)
+        hour_label.place(x=2, y=100)
 
-
-        words = StringVar()
-        minutes_time_entry = Entry(task, textvariable=words, width=10)
+        variable_words = StringVar()
+        minutes_time_entry = Entry(task, textvariable=variable_words, width=10)
         minutes_time_entry.place(x=60, y=130)
 
         minutes_label = Label(task, text="minutes:")
         minutes_label.place(x=2, y=130)
 
-
         task_submit = Button(task, text="submit", fg="green",
-                             command=lambda: [verify_am_pm(), verify_task(), verify_hours()])
+                             command=lambda: [verify_am_pm(),
+                                              verify_task(), verify_hours()])
         task_submit.place(x=130, y=165)
 
     message_label = Label(root, text="Warning, please enter task", fg="red")
-    
 
+    # def to edit the time in the listbox for an event
     def edit_current_time():
 
+        # def to verify the new entered minutes
         def verify_edit_minutes():
             new_minutes = edit_time_minutes.get()
 
@@ -209,6 +215,7 @@ def newwindow():
             else:
                 return False
 
+        # def to verify the new eneterd hours
         def verify_edit_hour():
 
             hour = edit_time_hours.get()
@@ -230,9 +237,10 @@ def newwindow():
 
             else:
                 return False
-            
+
+        # def to verify the new entered am/pm or AM/PM
         def verify_am_pm():
-            am_or_pm = am_pm_entry.get()
+            am_or_pm = new_am_pm_entry.get()
             if am_or_pm == "AM" or am_or_pm == "am":
                 return True
             if am_or_pm == "PM" or am_or_pm == "pm":
@@ -240,34 +248,38 @@ def newwindow():
             else:
                 return False
 
-        for item in time_lb.curselection():
+        # entering the new time into the time listbox
+        for selected_item in time_lb.curselection():
             edited_hours = edit_time_hours.get()
             edited_minutes = edit_time_minutes.get()
-            am_pm = am_pm_entry.get()
+            am_pm = new_am_pm_entry.get()
 
             new_time = edited_hours + ":" + edited_minutes + am_pm
 
-            if verify_edit_hour() == True and verify_edit_minutes() == True and verify_am_pm() == True:
+            if verify_edit_hour() == True and verify_edit_minutes() == True and verify_am_pm() == True:  # noqa
 
-                time_lb.delete(item)
+                time_lb.delete(selected_item)
                 time_lb.insert(END, new_time)
-                
+
                 edit_time_hours.delete(0, "end")
                 edit_time_minutes.delete(0, "end")
-                am_pm_entry.delete(0, "end")
+                new_am_pm_entry.delete(0, "end")
 
             else:
 
-                edit_value_warning = Label(root, text="Invalid time value", fg="red")
+                edit_value_warning = Label(root,
+                                           text="Invalid time value", fg="red")
                 edit_value_warning.place(x=265, y=295)
 
+    # def to edit an event in the event/task listbox
     def edit_current_event():
 
-        for item in task_lb.curselection():
+        # entering the new task/event into the listbox
+        for the_selected_item in task_lb.curselection():
             event = edit_entry.get()
 
             if event != "":
-                task_lb.delete(item)
+                task_lb.delete(the_selected_item)
                 task_lb.insert(END, event)
                 edit_entry.delete(0, "end")
                 message_label.place_forget()
@@ -275,19 +287,21 @@ def newwindow():
             else:
                 message_label.place(x=35, y=295)
 
+    # def to empty the entire listbox
     def empty_listboxes():
         task_lb.delete(0, END)
         time_lb.delete(0, END)
 
+    # inserting the editing widgets once the edit button is clicked
     def insert_editing_widgets():
-        am_pm_entry.place(x=380, y=235)
-        am_pm_label.place(x=380, y=215)
+        new_am_pm_entry.place(x=380, y=235)
+        new_am_pm_label.place(x=380, y=215)
 
         time_label.place(x=290, y=197)
 
-        hour_label.place(x=265, y=215)
+        edit_hour_label.place(x=265, y=215)
 
-        minutes_label.place(x=310, y=215)
+        edit_minutes_label.place(x=310, y=215)
 
         edit_time_hours.place(x=250, y=235)
 
@@ -335,22 +349,24 @@ def newwindow():
         time_lb.insert(END, item)
 
     # button that inserts the editing widgets into the screen
-    edit_button = Button(root, text="Edit", command=lambda: [insert_editing_widgets()])
+    edit_button = Button(root,
+                         text="Edit",
+                         command=lambda: [insert_editing_widgets()])
 
     # button to bring up task creating window
-    task_button = Button(root, text="Enter a new task", fg="green", command=submitnew, relief='solid')
+    task_button = Button(root, text="Enter a new task",
+                         fg="green", command=submitnew, relief='solid')
     task_button.place(x=155, y=170)
 
-    clear_button = Button(root, text="Clear\nlist", fg="red", command=empty_listboxes)
-    
+    clear_button = Button(root, text="Clear\nlist",
+                          fg="red", command=empty_listboxes)
 
     # label stating to enter new time
     time_label = Label(root, text="Enter new time")
 
-    hour_label = Label(root, text="hour")
+    edit_hour_label = Label(root, text="hour")
 
-    minutes_label = Label(root, text="minutes")
-
+    edit_minutes_label = Label(root, text="minutes")
 
     # entry box to edit the time a task needs to take place
     entry_words = StringVar()
@@ -360,19 +376,21 @@ def newwindow():
     edit_time_minutes = Entry(root, textvariable=minute_entry_words, width=5)
 
     entry_words = StringVar()
-    am_pm_entry = Entry(root, textvariable=entry_words, width=4)
+    new_am_pm_entry = Entry(root, textvariable=entry_words, width=4)
 
-    am_pm_label = Label(root, text="AM/PM")
+    new_am_pm_label = Label(root, text="AM/PM")
 
     # button to insert the new time
-    insert_time_edit = Button(root, text="Submit", command=edit_current_time, fg="green")
+    insert_time_edit = Button(root, text="Submit",
+                              command=edit_current_time, fg="green")
 
     # entry box to edit the task entered
-    words = StringVar()
-    edit_entry = Entry(root, textvariable=words, width=15)
+    words_variable = StringVar()
+    edit_entry = Entry(root, textvariable=words_variable, width=15)
 
     # button to insert the new task
-    insert_event_edit = Button(root, text="Submit", command=edit_current_event, fg="green")
+    insert_event_edit = Button(root, text="Submit",
+                               command=edit_current_event, fg="green")
 
     # label telling the user to enter to enter a new word
     entry_label = Label(root, text="Enter new word")
@@ -381,15 +399,18 @@ def newwindow():
     root.mainloop()
 
 
+# title of the welcoming window
 tk_welcome = Tk()
 tk_welcome.geometry('365x350')
 tk_welcome.title('Welcome')
 
+# laying out various labels to welcome the user
 welcome_label = Label(tk_welcome, text="Welcome!", font=("Ariel", 30))
 welcome_label.grid(row=0, columnspan=3)
 
-desc_label = Label(tk_welcome, text="""Hi there user, this is my daily use to dolist application. If\nyou
-get stuck at anypoint, pleasepress the help button on the\nmain page :)""", font=("Ariel"))
+desc_label = Label(tk_welcome,
+                   text="""Hi there user, this is my daily use to dolist application. If\nyou 
+get stuck at anypoint, please press the help button on the\nmain page :)""", font="Ariel")  # noqa
 desc_label.grid(row=2, columnspan=3)
 
 Label(tk_welcome, text="").grid(row=3, columnspan=3)
@@ -397,11 +418,13 @@ Label(tk_welcome, text="").grid(row=3, columnspan=3)
 name_ask_label = Label(tk_welcome, text="What should I call you?")
 name_ask_label.grid(row=4, columnspan=3)
 
+# entry to enter name
 words = StringVar()
 name_entry = Entry(tk_welcome, textvariable=words)
 name_entry.grid(row=5, column=1)
 
 
+# def to verify the name and insert it into a welcome message
 def place_name():
     name = name_entry.get()
 
@@ -428,13 +451,16 @@ def place_name():
 
         Label(tk_welcome, text="").grid(row=4, column=1)
 
-        name_label.config(text=f"Hello there, {name}. Press continue when ready.")
+        name_label.config(
+            text=f"Hello there, {name}. Press continue when ready.")
         name_label.grid(row=5, column=1)
 
 
+# various labels and buttons laying out the welcome screen
 warning_label = Label(tk_welcome, text="Warning, please enter name.", fg="red")
 
-warning_text_label = Label(tk_welcome, text="Please enter letters only", fg="red")
+warning_text_label = Label(tk_welcome,
+                           text="Please enter letters only", fg="red")
 
 enter_button = Button(tk_welcome, text="Enter", fg="green", command=place_name)
 enter_button.grid(row=6, column=1)
@@ -449,4 +475,5 @@ skip_button.grid(row=8, column=1)
 
 continue_button = Button(tk_welcome, text="Continue", command=newwindow)
 
+# looping the entire program
 tk_welcome.mainloop()
