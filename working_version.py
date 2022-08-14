@@ -264,6 +264,7 @@ def newwindow():
                 edit_time_hours.delete(0, "end")
                 edit_time_minutes.delete(0, "end")
                 new_am_pm_entry.delete(0, "end")
+                edit_value_warning.place_forget()
 
             else:
 
