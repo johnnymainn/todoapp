@@ -84,7 +84,7 @@ def newwindow():
             if minutes.isdigit and len(minutes) == 2:
                 minutes_int = float(minutes)
                 try:
-                    if 60 >= minutes_int >= 0:
+                    if 60 > minutes_int >= 0:
 
                         return True
                     else:
@@ -199,7 +199,7 @@ def newwindow():
             if new_minutes.isdigit and len(new_minutes) == 2:
                 minutes_int = float(new_minutes)
                 try:
-                    if 60 >= minutes_int >= 0:
+                    if 60 > minutes_int >= 0:
 
                         return True
                     else:
