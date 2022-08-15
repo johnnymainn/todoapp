@@ -106,7 +106,7 @@ def newwindow():
             if hour.isdigit and len(hour) == 2 or len(hour) == 1:
                 hour_int = float(hour)
                 try:
-                    if 12 >= hour_int >= 0:
+                    if 12 >= hour_int > 0:
 
                         return True
                     else:
@@ -222,7 +222,7 @@ def newwindow():
             if hour.isdigit and len(hour) != 0:
                 hour_int = float(hour)
                 try:
-                    if 12 >= hour_int >= 0:
+                    if 12 >= hour_int > 0:
 
                         return True
                     else:
