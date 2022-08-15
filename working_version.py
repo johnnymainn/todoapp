@@ -141,6 +141,7 @@ def newwindow():
                 task.destroy()
                 edit_button.place(x=15, y=5)
                 clear_button.place(x=13, y=40)
+                help_button.place(x=362, y=35)
 
             else:
 
@@ -324,7 +325,6 @@ def newwindow():
 
     # help button
     help_button = Button(root, text="Help", command=help_user)
-    help_button.place(x=362, y=35)
 
     # task listbox
     task_lb = Listbox(root, width=22, height=8)
