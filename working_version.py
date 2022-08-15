@@ -134,7 +134,6 @@ def newwindow():
             if len(event) != 0 and verify_am_pm() == True and verify_hours() == True and verify_minutes():  # noqa
                 task_lb.insert(END, event)
                 event_entry.delete(0, "end")
-                print("1")
 
                 time_lb.insert(END, time)
                 hour_time_entry.delete(0, "end")
@@ -257,6 +256,8 @@ def newwindow():
             new_time = edited_hours + ":" + edited_minutes + am_pm
 
             if verify_edit_hour() == True and verify_edit_minutes() == True and verify_am_pm() == True:  # noqa
+                
+                edit_value_warning.place_forget()
 
                 time_lb.delete(selected_item)
                 time_lb.insert(END, new_time)
@@ -264,13 +265,11 @@ def newwindow():
                 edit_time_hours.delete(0, "end")
                 edit_time_minutes.delete(0, "end")
                 new_am_pm_entry.delete(0, "end")
-                edit_value_warning.place_forget()
 
             else:
-
-                edit_value_warning = Label(root,
-                                           text="Invalid time value", fg="red")
                 edit_value_warning.place(x=265, y=295)
+
+    edit_value_warning = Label(root, text="Invalid time value", fg="red")
 
     # def to edit an event in the event/task listbox
     def edit_current_event():
@@ -434,6 +433,7 @@ def place_name():
         placeholder_label.grid_forget()
 
         warning_label.grid(row=7, column=1)
+        warning_text_label.grid_forget()
 
     elif not name.isalpha():
         warning_text_label.grid(row=7, column=1)
